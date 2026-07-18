@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IORBIT | 아이오비</title>
+    
+    <style>
+        /* 전체 기본 설정 (유지) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
+        body { background-color: #2b2b2b; color: #ffffff; line-height: 1.6; }
+
+        /* 상단 헤더 (유지) */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background-color: #1e1e1e; position: sticky; top: 0; z-index: 100; }
+        header .logo h1 { font-size: 24px; letter-spacing: 2px; }
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav a { color: #ffffff; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+        nav a:hover { color: #7ab4b6; }
+
+        /* 메인 배너 영역 (유지) */
+        .hero { height: 80vh; display: flex; justify-content: center; align-items: center; text-align: center; background-color: #333333; }
+        .hero h2 { font-size: 48px; color: #7ab4b6; margin-bottom: 20px; }
+        .hero p { font-size: 18px; margin-bottom: 30px; color: #dddddd; }
+        
+        .btn { display: inline-block; padding: 12px 30px; background-color: #7ab4b6; color: #ffffff; text-decoration: none; border-radius: 25px; font-weight: bold; transition: background-color 0.3s; }
+        .btn:hover { background-color: #5c8b8d; }
+
+        /* 스크롤 애니메이션 (유지) */
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 1s ease-out, transform 1s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* 🟢 시선을 끄는 질문 (Hook) - 여백 축소 수정 */
+        .hook-section { padding: 40px 20px; background-color: #1e1e1e; text-align: center; }
+        .hook-section h2 { font-size: 26px; color: #ffffff; line-height: 1.5; font-weight: normal; margin-bottom: 15px; }
+        .hook-section h2 strong { color: #7ab4b6; }
+        .hook-section p { color: #aaaaaa; font-size: 16px; }
+
+        /* 섹션 공통 스타일 (유지) */
+        section { padding: 80px 20px; text-align: center; }
+
+        /* 🟢 프로젝트 하이라이트 (지그재그 배치 및 박스 크기 비율 고정 수정) */
+        .project-highlight { background-color: #2b2b2b; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+        .project-container { display: flex; align-items: center; gap: 50px; width: 100%; max-width: 1000px; min-height: 520px; background-color: #1e1e1e; padding: 40px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+        .project-reverse { flex-direction: row-reverse; } 
+        
+        .project-image, .project-text { flex: 1; } /* 텍스트와 이미지 영역을 1:1로 균일하게 분할 */
+        .project-image img { width: 100%; max-width: 450px; border-radius: 10px; display: block; margin: 0 auto; }
+        .project-text { text-align: left; }
+        
+        .badge { display: inline-block; background-color: #7ab4b6; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 14px; font-weight: bold; margin-bottom: 20px; }
+        .project-text h2 { font-size: 32px; color: #ffffff; margin-bottom: 10px; line-height: 1.4; }
+        .project-text .subtitle { font-size: 18px; color: #7ab4b6; margin-bottom: 20px; font-weight: bold; }
+        
+        /* 🟢 실시간 임팩트 데이터용 CSS 추가 */
+        .impact-data { background-color: #2b2b2b; display: inline-block; padding: 12px 20px; border-radius: 8px; margin-bottom: 25px; border-left: 4px solid #7ab4b6; }
+        .impact-label { font-size: 14px; color: #aaaaaa; margin-right: 10px; }
+        .impact-number { font-size: 20px; color: #7ab4b6; font-weight: bold; }
+
+        .project-details { list-style: none; padding: 0; }
+        .project-details li { margin-bottom: 15px; color: #dddddd; line-height: 1.6; }
+        .project-details strong { color: #ffffff; display: block; margin-bottom: 5px; }
+
+        /* 단체 소개 (유지) */
+        .about h2 { margin-bottom: 20px; color: #7ab4b6; }
+        
+        /* 🟢 환경 궤도 달력 (줄바꿈 오류 해결) */
+        .orbit-calendar { background-color: #3f3f3f; max-width: 500px; margin: 40px auto 0; padding: 30px; border-radius: 10px; text-align: left; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .orbit-calendar h3 { color: #7ab4b6; margin-bottom: 15px; border-bottom: 1px solid #555; padding-bottom: 10px; }
+        .orbit-calendar ul { list-style: none; }
+        .orbit-calendar li { margin-bottom: 10px; color: #dddddd; display: flex; gap: 15px; align-items: flex-start; }
+        .orbit-calendar .date { color: #ffffff; font-weight: bold; flex-shrink: 0; white-space: nowrap; }
+
+        /* 소식/공지 및 인스타 배너 (유지) */
+        .news h2 { color: #7ab4b6; margin-bottom: 20px; }
+        .news-list { list-style: none; max-width: 800px; margin: 0 auto; text-align: left; }
+        .news-list li { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #444; }
+        .news-list a { color: #dddddd; text-decoration: none; transition: color 0.3s; }
+        .news-list a:hover { color: #7ab4b6; }
+        
+        .insta-banner { display: block; background-color: #7ab4b6; color: #ffffff; text-decoration: none; max-width: 800px; margin: 40px auto 0; padding: 20px; border-radius: 10px; font-size: 18px; font-weight: bold; transition: background-color 0.3s; text-align: center; }
+        .insta-banner:hover { background-color: #5c8b8d; }
+
+        /* 참여/후원 (문의 폼) 영역 (유지) */
+        .contact { background-color: #333333; }
+        .contact h2 { color: #7ab4b6; margin-bottom: 10px; }
+        .contact-form { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 15px; border: none; border-radius: 5px; background-color: #2b2b2b; color: #ffffff; font-family: inherit; }
+        .contact-form button { border: none; cursor: pointer; font-size: 16px; margin-top: 10px; padding: 15px; background-color: #7ab4b6; color: #fff; border-radius: 5px; font-weight: bold; }
+
+        /* 모바일 반응형 (유지) */
+        @media (max-width: 768px) {
+            .project-container, .project-reverse { flex-direction: column; text-align: center; min-height: auto; }
+            .project-text { text-align: center; }
+        }
+
+        footer { text-align: center; padding: 20px; background-color: #1e1e1e; font-size: 14px; color: #888888; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>ΦB IORBIT</h1> 
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#project">Project</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#news">News</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h2>ORBIT YOUR LIFE</h2>
+            <p>일상의 궤도에서 시작된 작은 변화<br>환경의 궤도를 바꿉니다</p>
+            <a href="#contact" class="btn">서명으로 동참하기</a>
+        </div>
+    </section>
+
+    <section class="hook-section fade-in">
+        <h2>우리가 일주일 동안 삼키는 미세플라스틱의 양이<br><strong>신용카드 한 장 무게</strong>라는 사실, 알고 계셨나요?</h2>
+        <p>만약 내일 아침 얼음이 모두 사라진다면, 북극곰은 어디서 쉬어야 할까요?</p>
+    </section>
+
+    <section id="project" class="project-highlight fade-in">
+        
+        <div class="project-container">
+            <div class="project-image">
+                <img src="polarbear.jpg" alt="북극곰의 꿈 포스터">
+            </div>
+            <div class="project-text">
+                <span class="badge">Project 01</span>
+                <h2>북극곰의 꿈 :<br>내일이 왔으면 좋겠어요</h2>
+                <p class="subtitle">당신의 사소한 오늘, 북극의 눈물</p>
+                
+                <div class="impact-data">
+                    <span class="impact-label">현재 보호구역 서명자</span>
+                    <span class="impact-number"><span id="sig-count">0</span>명</span>
+                </div>
+
+                <ul class="project-details">
+                    <li><strong>[현황 및 위기]</strong>기후 변화로 인한 해빙 감소로 북극 생태계 붕괴 및 장기적 생존 위협 심화</li>
+                    <li><strong>[정책 연대]</strong>북극해 보호구역 지정 촉구를 위한 글로벌 서명 운동 및 정책 제안서 발제</li>
+                    <li><strong>[시민 행동]</strong>일상 속 탄소 발자국 데이터 맵핑 및 '에너지 다이어트 챌린지' 운영</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="project-container project-reverse">
+            <div class="project-image">
+                <img src="micro.jpg" alt="미세플라스틱 캠페인">
+            </div>
+            <div class="project-text">
+                <span class="badge">Project 02</span>
+                <h2>바다를 건너온 침묵 :<br>미세플라스틱 추적</h2>
+                <p class="subtitle">오늘의 날씨, 미세플라스틱이 내리겠습니다</p>
+                
+                <div class="impact-data">
+                    <span class="impact-label">누적 해양 플라스틱 수거량</span>
+                    <span class="impact-number"><span id="plastic-count">0</span>kg</span>
+                </div>
+
+                <ul class="project-details">
+                    <li><strong>[현황 및 위기]</strong>해양 생태계를 넘어 대기를 타고 이동하는 미세플라스틱의 인체 교란 위협</li>
+                    <li><strong>[연구 조사]</strong>국내 연안 및 도심 빗물 내 미세플라스틱 농도 정기 표본 조사 수행</li>
+                    <li><strong>[입법 촉구]</strong>일회용 플라스틱 생산 감축 및 미세플라스틱 규제 특별법 제정 캠페인</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about fade-in">
+        <h2>작은 관심이 지구의 내일을 바꿉니다 🌍</h2>
+        <p>환경문제를 알리고, 행동의 변화를 만들어갑니다.<br>오늘의 실천이 내일의 지구를 지킵니다.</p>
+        
+        <div class="orbit-calendar">
+            <h3>📅 올여름 환경 궤도</h3>
+            <ul>
+                <li><span class="date">7월 3일</span> <span>세계 일회용 비닐봉투 없는 날 (플라스틱 프리 실천)</span></li>
+                <li><span class="date">8월 22일</span> <span>에너지의 날 (소등 및 에어컨 온도 조절 동참)</span></li>
+                <li><span class="date">9월 6일</span> <span>자원순환의 날 (올바른 분리배출 및 자원 절약)</span></li>
+                <li><span class="date">9월 7일</span> <span>푸른 하늘의 날 (유엔 지정 대기환경의 날)</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="news" class="news fade-in">
+        <h2>News 📢</h2>
+        <ul class="news-list">
+            <!-- href 안의 링크를 수정! -->
+            <li><a href="notice.html">[공지] 아이오비 새로운 캠페인 자원봉사자 모집</a> <span>2026.06.30</span></li>
+            <li><a href="news.html">[소식] 미세플라스틱 줍깅 행사 결과 보고</a> <span>2026.06.15</span></li>
+        </ul>
+        
+        <a href="https://www.instagram.com/i_or_bit" target="_blank" class="insta-banner">
+            아이오비의 실시간 궤도 확인하기 (Instagram) ➔
+        </a>
+    </section>
+
+    <section id="contact" class="contact fade-in">
+        <h2>Get Involved 🤝</h2>
+        <p>아이오비와 함께 지구의 내일을 바꿔주세요.</p>
+        <form class="contact-form">
+            <input type="text" placeholder="이름" required>
+            <input type="email" placeholder="이메일" required>
+            <textarea placeholder="문의 내용이나 캠페인 지지 메시지를 남겨주세요." rows="4" required></textarea>
+            <button type="submit">전송하기</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 (주)아이오비 IORBIT. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 메뉴 부드러운 스크롤 이동
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // 스크롤 시 스르륵 나타나는 애니메이션
+        const observerOptions = { threshold: 0.2 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+
+        // 🟢 실시간 임팩트 데이터 계산 로직 (시간이 지날수록 숫자가 늘어남)
+        const startDate = new Date("2026-06-01T00:00:00").getTime();
+        
+        function updateImpact() {
+            const now = new Date().getTime();
+            const diffSecs = (now - startDate) / 1000;
+            
+            // 시간에 비례해서 늘어나도록 설정 (1시간에 서명 10명, 수거량 5kg 증가)
+            const sigs = Math.floor(1402 + (diffSecs * (10 / 3600))); 
+            const plastic = Math.floor(320 + (diffSecs * (5 / 3600))); 
+            
+            const sigElement = document.getElementById('sig-count');
+            const plasticElement = document.getElementById('plastic-count');
+            
+            if(sigElement && plasticElement) {
+                sigElement.innerText = sigs.toLocaleString(); // 천 단위 콤마 추가
+                plasticElement.innerText = plastic.toLocaleString();
+            }
+        }
+        
+        updateImpact(); // 열자마자 즉시 실행
+        setInterval(updateImpact, 3000); // 3초마다 살짝씩 갱신되는지 백그라운드 체크
+    </script>
+</body>
+</html>

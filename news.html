@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[소식] 미세플라스틱 줍깅 결과 | IORBIT</title>
+    <!-- 디자인(CSS)은 notice.html과 동일하게 맞췄어! -->
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
+        body { background-color: #2b2b2b; color: #ffffff; line-height: 1.6; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background-color: #1e1e1e; border-bottom: 1px solid #333; }
+        header .logo h1 { font-size: 24px; letter-spacing: 2px; }
+        header a { color: #fff; text-decoration: none; }
+        
+        .board-wrapper { max-width: 800px; margin: 60px auto; padding: 0 20px; min-height: 60vh; }
+        .board-header { border-bottom: 2px solid #7ab4b6; padding-bottom: 20px; margin-bottom: 30px; }
+        .board-header h2 { font-size: 28px; color: #ffffff; margin-bottom: 15px; line-height: 1.4; }
+        .board-meta { display: flex; gap: 20px; color: #888888; font-size: 14px; }
+        
+        .board-content { color: #dddddd; font-size: 16px; margin-bottom: 50px; }
+        .board-content h3 { color: #7ab4b6; margin-top: 30px; margin-bottom: 10px; font-size: 20px; }
+        .board-content p { margin-bottom: 15px; }
+        
+        /* 결과 보고용 하이라이트 박스 */
+        .result-box { background-color: #1e1e1e; border-left: 4px solid #7ab4b6; padding: 25px; margin-bottom: 25px; border-radius: 0 8px 8px 0; }
+        .result-box h4 { color: #fff; margin-bottom: 10px; }
+        .result-box .data { font-size: 24px; color: #7ab4b6; font-weight: bold; margin-bottom: 5px; }
+
+        .btn-back { display: block; width: 160px; margin: 0 auto; padding: 15px; background-color: #3f3f3f; color: #ffffff; text-align: center; border-radius: 25px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .btn-back:hover { background-color: #7ab4b6; }
+        
+        footer { text-align: center; padding: 20px; background-color: #1e1e1e; font-size: 14px; color: #888888; margin-top: 50px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <!-- 클릭하면 다시 메인화면으로 돌아가는 로고 -->
+            <h1><a href="index.html">ΦB IORBIT</a></h1> 
+        </div>
+    </header>
+
+    <div class="board-wrapper">
+        <div class="board-header">
+            <h2>[소식] 바다를 건너온 침묵 : 전국 연안 미세플라스틱 줍깅 행사 결과 보고</h2>
+            <div class="board-meta">
+                <span>등록일: 2026.06.15</span>
+                <span>작성자: IORBIT 사무국</span>
+                <span>조회수: <span id="view-count-news">3,450</span></span>
+            </div>
+        </div>
+
+        <div class="board-content">
+            <p>안녕하세요. IORBIT 사무국입니다.</p>
+            <p>지난 6월 8일 '세계 해양의 날'을 맞아 주말 동안 전국 3개 거점(부산, 강릉, 제주)에서 동시 진행된 <strong>'미세플라스틱 줍깅(Plogging)'</strong> 행사가 시민 여러분의 뜨거운 참여 속에 성공적으로 마무리되었습니다.</p>
+            
+            <p>해양 생태계 붕괴를 막기 위해 일상 속 작은 궤도를 수정해 주신 모든 참가자분들께 진심으로 감사드립니다. 구체적인 성과 데이터를 아래와 같이 공유합니다.</p>
+            
+            <div class="result-box">
+                <h4>📊 캠페인 주요 성과</h4>
+                <div class="data">총 1,500kg</div>
+                <p>수거된 해양 플라스틱 및 미세플라스틱 파편 무게</p>
+                <br>
+                <div class="data">시민 300명 참여</div>
+                <p>전국 3개 거점 아이오비 스팟 동시 다발적 행동 맵핑 완료</p>
+            </div>
+
+            <h3>🌊 향후 계획</h3>
+            <p>수거된 1,500kg의 플라스틱 쓰레기는 아이오비와 협약된 지역 재활용 센터를 통해 새로운 자원으로 순환될 예정입니다. 또한, 이번 줍깅 행사에서 수집된 도심 인근 해안의 미세플라스틱 농도 표본은 하반기 '미세플라스틱 규제 특별법 제정'을 위한 국회 발제 자료로 활용됩니다.</p>
+            <p>우리가 버린 플라스틱이 다시 우리의 식탁으로 돌아오지 않도록, 아이오비의 추적은 계속됩니다. 앞으로도 많은 관심 부탁드립니다.</p>
+        </div>
+
+        <a href="index.html#news" class="btn-back">목록으로 돌아가기</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 (주)아이오비 IORBIT. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 소식 조회수 실시간 증가 로직
+        const newsDate = new Date("2026-06-15T09:00:00").getTime();
+        
+        function updateNewsViews() {
+            const now = new Date().getTime();
+            const diffHours = Math.max(0, (now - newsDate) / (1000 * 60 * 60));
+            
+            // 기본 조회수 2800에서 시간에 비례해 서서히 증가 (1시간에 약 2명)
+            const views = Math.floor(2800 + (diffHours * 2));
+            document.getElementById('view-count-news').innerText = views.toLocaleString();
+        }
+        
+        updateNewsViews();
+    </script>
+</body>
+</html>
